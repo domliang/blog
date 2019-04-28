@@ -1,347 +1,45 @@
-<!DOCTYPE html>
-<html>
-  <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
-  <meta name="author" content="Dong Yuanxin">
-  
-
-  <title>flutter本地化l10n（多语言i18n）的支持 | Hexo</title>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  
-  <meta name="keywords" content="flutter,">
-  
-
-  
-  <meta name="description" content="董沅鑫的小站">
-
-  
-
-  
-  <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
-  
-
-  
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
-  
-
-  
-  <script src="//unpkg.com/valine/dist/Valine.min.js" async></script>
-  
-
-  
-
-  <script>
-  // theme-ad's config script
-  // it can be used in every script
-  
-  window.AD_CONFIG = {
-    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":true,"count":true},
-    welcome: {"enable":false,"interval":30},
-    start_time: "2018-02-10",
-    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
-    is_post: true,
-    lock: false,
-    author: "Dong Yuanxin",
-    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
-    mathjax: true,
-    page_type: "",
-    root: "/blog/"
-  };
-</script>
-
-  <script src="/blog/vendor/sha256.min.js"></script>
-<script src="/blog/js/auth.js"></script>
-<script src="/blog/js/index.js"></script>
-<script src="/blog/vendor/qrcode.min.js"></script>
-
-  
-  <link rel="icon" href="/blog/images/favicon.ico">
-  <link rel="apple-touch-icon" href="/blog/images/touch-icon.png">
-  
-
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-  <link rel="stylesheet" href="/blog/css/index.css">
-<link rel="stylesheet" href="/blog/styles/components/highlight/highlight.css">
-
-  
-</head>
-  <body>
-    <header class="site-header">
-  <div class="site-header-brand">
-    
-      <span class="site-header-brand-title">
-        <a href="/blog/">GODBMW</a>
-      </span>
-    
-    
-      <span class="site-header-brand-motto"> | 安静写些东西</span>
-    
-  </div>
-  <div class="site-header-right">
-    <nav class="site-header-navigation">
-      
-        <a href="/blog/" target="_self">首页</a>
-      
-        <a href="/blog/archives/" target="_self">归档</a>
-      
-        <a href="/blog/tags/" target="_self">标签</a>
-      
-        <a href="/blog/categories/" target="_self">分类</a>
-      
-        <a href="/blog/friends/" target="_self">友链</a>
-      
-        <a href="/blog/about/" target="_self">关于</a>
-      
-    </nav>
-    <div class="site-header-btn">
-      
-        <a href="https://github.com/dongyuanxin/" target="_blank" id="site-github">
-          <i class="fa fa-github-alt"></i>
-        </a>
-      
-      <a href="javascript:void(0);" id="site-search">
-        <i class="fa fa-search"></i>
-      </a>
-      <a href="javascript:void(0);" id="site-nav-btn">
-        <i class="fa fa-ellipsis-v"></i>
-      </a>
-    </div>
-  </div>
-</header>
-<nav class="table-content" id="site-nav">
-  <div class="table-content-title">
-    <span>导航</span>
-  </div>
-  <div class="table-content-main">
-    <ol class="toc">
-      
-        <li class="toc-item">
-          <a href="/blog/" target="_self">
-            首页
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/blog/archives/" target="_self">
-            归档
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/blog/tags/" target="_self">
-            标签
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/blog/categories/" target="_self">
-            分类
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/blog/friends/" target="_self">
-            友链
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/blog/about/" target="_self">
-            关于
-          </a>
-        </li>
-      
-    </ol>
-  </div>
-</nav>
-<div id="site-process"></div>
-    <main>
-      
-  <div class="passage">
-  <div class="passage-meta">
-    <span>
-      <i class="fa fa-calendar"></i>2019-04-28
-    </span>
-    
-    
-    <span>
-      | <i class="fa fa-unlock-alt"></i>UNLOCK
-    </span>
-    
-  </div>
-  <h1 class="passage-title">
-    flutter本地化l10n（多语言i18n）的支持
-  </h1>
-  
-  <article class="passage-article">
-    <h2 id="首先说一下要用到的库"><a href="#首先说一下要用到的库" class="headerlink" title="首先说一下要用到的库"></a>首先说一下要用到的库</h2><p>主要用到3个库<code>flutter_localizations</code> <code>intl</code> <code>intl_translation</code><br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dependencies:</span></span><br><span class="line"><span class="attr">  flutter_localizations:</span></span><br><span class="line"><span class="attr">    sdk:</span> <span class="string">flutter</span></span><br><span class="line"><span class="attr">  intl:</span> <span class="number">0.15</span><span class="number">.7</span></span><br><span class="line"><span class="attr">dev_dependencies:</span></span><br><span class="line"><span class="attr">  intl_translation:</span> <span class="number">0.17</span><span class="number">.4</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="设置App"><a href="#设置App" class="headerlink" title="设置App"></a>设置App</h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> MaterialApp(</span><br><span class="line">  onGenerateTitle: (BuildContext context) =&gt;</span><br><span class="line">      AppLocalizations.of(context).title,</span><br><span class="line">  debugShowCheckedModeBanner: <span class="keyword">false</span>,</span><br><span class="line">  theme: ThemeData(</span><br><span class="line">    primarySwatch: Colors.blue,</span><br><span class="line">  ),</span><br><span class="line">  home: routes.buildPage(<span class="string">'login'</span>, <span class="keyword">null</span>),</span><br><span class="line">  localizationsDelegates: [</span><br><span class="line">    <span class="comment">// ... app-specific localization delegate[s] her</span></span><br><span class="line">    AppLocalizationsDelegate(),</span><br><span class="line">    GlobalMaterialLocalizations.delegate,</span><br><span class="line">    GlobalWidgetsLocalizations.delegate,</span><br><span class="line">  ],</span><br><span class="line">  supportedLocales: [</span><br><span class="line">    <span class="comment">// 支持语言设置</span></span><br><span class="line">    <span class="keyword">const</span> Locale(<span class="string">'en'</span>, <span class="string">'US'</span>), <span class="comment">// English</span></span><br><span class="line">    <span class="keyword">const</span> Locale(<span class="string">'zh'</span>, <span class="string">'CH'</span>), <span class="comment">// Chinese</span></span><br><span class="line">    <span class="comment">// ... other locales the app supports</span></span><br><span class="line">  ],</span><br><span class="line">  onGenerateRoute: (RouteSettings settings) &#123;</span><br><span class="line">    <span class="keyword">return</span> MaterialPageRoute&lt;<span class="built_in">Object</span>&gt;(builder: (BuildContext context) &#123;</span><br><span class="line">      <span class="keyword">return</span> routes.buildPage(settings.name, settings.arguments);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<h2 id="编写本地化类"><a href="#编写本地化类" class="headerlink" title="编写本地化类"></a>编写本地化类</h2><p><code>Lib/localizations.dart</code><br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;</span><br><span class="line"><span class="comment">// import 'package:flutter_localizations/flutter_localizations.dart';</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:intl/intl.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'l10n/messages_all.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppLocalizations</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> Future&lt;AppLocalizations&gt; load(Locale locale) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">String</span> name =</span><br><span class="line">        locale.countryCode.isEmpty ? locale.languageCode : locale.toString();</span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">String</span> localeName = Intl.canonicalizedLocale(name);</span><br><span class="line">    <span class="keyword">return</span> initializeMessages(localeName).then((_) &#123;</span><br><span class="line">      Intl.defaultLocale = localeName;</span><br><span class="line">      <span class="built_in">print</span>(</span><br><span class="line">          <span class="string">'the local code of <span class="subst">$localeName</span> <span class="subst">$&#123;locale.countryCode.isEmpty&#125;</span> <span class="subst">$&#123;locale&#125;</span>'</span>);</span><br><span class="line">      <span class="keyword">return</span> AppLocalizations();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> AppLocalizations of(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Localizations.of&lt;AppLocalizations&gt;(context, AppLocalizations);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">String</span> <span class="keyword">get</span> title &#123;</span><br><span class="line">    <span class="keyword">return</span> Intl.message(</span><br><span class="line">      <span class="string">'Hello World'</span>,</span><br><span class="line">      name: <span class="string">'title'</span>,</span><br><span class="line">      desc: <span class="string">'Title for the Demo application'</span>,</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppLocalizationsDelegate</span> <span class="keyword">extends</span> <span class="title">LocalizationsDelegate</span>&lt;<span class="title">AppLocalizations</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> AppLocalizationsDelegate();</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">bool</span> isSupported(Locale locale) =&gt; [<span class="string">'en'</span>, <span class="string">'zh'</span>].contains(locale.languageCode);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Future&lt;AppLocalizations&gt; load(Locale locale) =&gt; AppLocalizations.load(locale);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">bool</span> shouldReload(AppLocalizationsDelegate old) =&gt; <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="导出intl-messages-arb"><a href="#导出intl-messages-arb" class="headerlink" title="导出intl_messages.arb"></a>导出intl_messages.arb</h2><p>导出命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter pub pub run intl_translation:extract_to_arb --output-dir=lib/l10n lib/localizations.dart</span><br></pre></td></tr></table></figure></p>
-<p>导出的文件 l10n/intl_messages.arb</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"@@last_modified"</span>: <span class="string">"2019-04-28T15:58:14.536252"</span>,</span><br><span class="line">  <span class="attr">"title"</span>: <span class="string">"Hello World"</span>,</span><br><span class="line">  <span class="attr">"@title"</span>: &#123;</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"Title for the Demo application"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">    <span class="attr">"placeholders"</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="编写对应的-l10n-intl-locale-arb"><a href="#编写对应的-l10n-intl-locale-arb" class="headerlink" title="编写对应的 l10n/intl_[locale].arb"></a>编写对应的 l10n/intl_[locale].arb</h2><p>l10n/intl_en.arb<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"@@last_modified"</span>: <span class="string">"2019-04-28T15:58:14.536252"</span>,</span><br><span class="line">  <span class="attr">"title"</span>: <span class="string">"Hello World"</span>,</span><br><span class="line">  <span class="attr">"@title"</span>: &#123;</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"Title for the application"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">    <span class="attr">"placeholders"</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>l10n/intl_zh.arb<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"@@last_modified"</span>: <span class="string">"2019-04-28T15:58:14.536252"</span>,</span><br><span class="line">  <span class="attr">"title"</span>: <span class="string">"你好世界"</span>,</span><br><span class="line">  <span class="attr">"@title"</span>: &#123;</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"Title for the application"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">    <span class="attr">"placeholders"</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="arb-导出-dart-类"><a href="#arb-导出-dart-类" class="headerlink" title="arb 导出 dart 类"></a>arb 导出 dart 类</h2><p>命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flutter pub pub run intl_translation:generate_from_arb --output-dir=lib/l10n \</span><br><span class="line">   --no-use-deferred-loading lib/localizations.dart lib/l10n/intl_*.arb</span><br></pre></td></tr></table></figure></p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'localizations.dart'</span>;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">AppLocalizations.of(context).title</span><br></pre></td></tr></table></figure>
-<h2 id="更新-iOS-app-bundle"><a href="#更新-iOS-app-bundle" class="headerlink" title="更新 iOS app bundle"></a>更新 iOS app bundle</h2><p>打开<code>ios/Runner.xcworkspace</code>找到Runner的<code>Info.plist</code></p>
-<p>添加一个key为<code>Localizations</code>value为你支持的语言</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>good luck</p>
-
-  </article>
-  <aside class="table-content" id="site-toc">
-  <div class="table-content-title">
-    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
-    <span>目录</span>
-  </div>
-  <div class="table-content-main">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#首先说一下要用到的库"><span class="toc-text">首先说一下要用到的库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置App"><span class="toc-text">设置App</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编写本地化类"><span class="toc-text">编写本地化类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导出intl-messages-arb"><span class="toc-text">导出intl_messages.arb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编写对应的-l10n-intl-locale-arb"><span class="toc-text">编写对应的 l10n/intl_[locale].arb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#arb-导出-dart-类"><span class="toc-text">arb 导出 dart 类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新-iOS-app-bundle"><span class="toc-text">更新 iOS app bundle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-text">最后</span></a></li></ol>
-  </div>
-</aside>
-  
-  <aside class="passage-copyright">
-    <div>本文作者: Dom Liang</div>
-    
-    <div>
-      原文链接:
-      <a href target="_blank">https://domliang.github.io/blog/2019/04/28/本地化l10n（多语言i18n）的支持/</a>
-    </div>
-    
-    <div>
-      版权声明: 本博客所有文章除特别声明外, 均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
-    </div>
-  </aside>
-  
-  
-  <div class="passage-tags">
-    
-    <a href="/blog/tags/flutter/"><i class="fa fa-tags"></i>flutter</a>
-    
-  </div>
-  
-</div>
-
-    </main>
-    
-      
-<div class="site-comment-contanier" data-plateform="leancloud">
-  
-    <p id="site-comment-info">
-      <i class="fa fa-spinner fa-spin"></i> 评论加载中
-    </p>
-    <div id="site-comment"></div>
-  
-</div>
-    
-    <div class="site-footer-wrapper">
-  <footer class="site-footer">
-    <div class="site-footer-info">
-      write with ❤️
-    </div>
-  </footer>
-</div>
-    <div id="site-layer" style="display:none;">
-  <div class="site-layer-content">
-    <div class="site-layer-header">
-      <span class="site-layer-header-title" id="site-layer-title"></span>
-      <i class="fa fa-close" id="site-layer-close"></i>
-    </div>
-    <div class="site-layer-body" id="site-layer-container">
-      <div class="site-layer-input" id="site-layer-search" style="display: none;">
-        <input type="text">
-        <i class="fa fa-search"></i>
-      </div>
-      
-        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
-          
-            <div>
-              <img src="/blog/images/wechat.png" alt="WeChat">
-              
-                <p>WeChat</p>
-              
-            </div>
-          
-            <div>
-              <img src="/blog/images/alipay.png" alt="AliPay">
-              
-                <p>AliPay</p>
-              
-            </div>
-          
-        </div>
-      
-      <div id="site-layer-welcome" style="display:none;"></div>
-    </div>
-  </div>
-</div>
-    
-
-<div class="bottom-bar">
-  <div class="bottom-bar-left">
-    <a href="javascript:void(0);" data-enable="false">
-      <i class="fa fa-arrow-left"></i>
-    </a>
-    <a href="/blog/2019/04/28/hello-world/" data-enable="true">
-      <i class="fa fa-arrow-right"></i>
-    </a>
-  </div>
-  <div class="bottom-bar-right">
-    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
-      <i class="fa fa-bars"></i>
-    </a>
-    
-      <a href="#site-comment" data-enable="true">
-        <i class="fa fa-commenting"></i>
-      </a>
-    
-    <a href="javascript:void(0);" id="site-toggle-share-btn">
-      <i class="fa fa-share-alt"></i>
-    </a>
-    
-      <a href="javascript:void(0);" id="site-reward">
-        <i class="fa fa-thumbs-up"></i>
-      </a>
-    
-    <a href="javascript:void(0);" id="back-top-btn">
-      <i class="fa fa-chevron-up"></i>
-    </a>
-  </div>
-</div>
-    <div id="share-btn">
-  
-    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-twitter"></i>
-    </a>
-  
-  
-    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-facebook"></i>
-    </a>
-  
-  
-    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-weibo"></i>
-    </a>
-  
-  
-    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-qq"></i>
-    </a>
-  
-  
-    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-wechat"></i>
-    </a>
-  
-</div>
-    
-
-
-
-
-    
-  </body>
-</html>
+extends ./_partial/layout.pug
+block content
+  include ./_partial/post_header.pug
+  .article-content(style='max-width:'+ theme.content_width +'px')
+    if page.photos && page.photos.length
+      div
+        each photo in page.photos
+          a.article-gallery-img.fancybox(href=photo)
+            img(src=photo)
+    | !{page.content}
+  .article-meta(style='max-width:'+ theme.content_width +'px')
+    if page.tags && page.tags.length
+      .tags
+        i.icon.icon-tag
+        | !{list_tags(page.tags)}
+    if page.tags && page.categories.length
+      .categories
+        i.icon.icon-category
+        | !{list_categories(page.categories)}
+  if theme.duoshuo.enable
+    .article-comment(style='max-width:'+ theme.content_width +'px')
+      #ds-thread.ds-thread(data-thread-key=page._id, data-title=page.title, data-url=config.url + url_for(page.path), site-name=theme.duoshuo.siteName)
+      script.
+        var siteName = document.getElementById('ds-thread').getAttribute('site-name');
+        var duoshuoQuery = {short_name: siteName};
+        (function() {
+          var ds = document.createElement('script');
+          ds.type = 'text/javascript';ds.async = true;
+          ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+          ds.charset = 'UTF-8';
+          (document.getElementsByTagName('head')[0] 
+          || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+  ul.navication
+    li.home
+      a(href="/")
+        i.icon.icon-home
+    if page.prev && page.prev.path
+      li
+        a(href=url_for(page.prev.path))
+          i.icon.icon-arror-left
+    if page.next && page.next.path
+      li
+        a(href=url_for(page.next.path))
+          i.icon.icon-arror-right
