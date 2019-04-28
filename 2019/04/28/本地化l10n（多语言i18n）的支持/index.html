@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>flutter本地化l10n（多语言i18n）的支持 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="首先说一下要用到的库主要用到3个库flutter_localizations intl intl_translation123456dependencies:  flutter_localizations:    sdk: flutter  intl: 0.15.7dev_dependencies:  intl_translation: 0.17.4 设置App123456789101112131">
+<meta name="keywords" content="flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flutter本地化l10n（多语言i18n）的支持">
+<meta property="og:url" content="http://yoursite.com/2019/04/28/本地化l10n（多语言i18n）的支持/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="首先说一下要用到的库主要用到3个库flutter_localizations intl intl_translation123456dependencies:  flutter_localizations:    sdk: flutter  intl: 0.15.7dev_dependencies:  intl_translation: 0.17.4 设置App123456789101112131">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-28T09:21:13.195Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="flutter本地化l10n（多语言i18n）的支持">
+<meta name="twitter:description" content="首先说一下要用到的库主要用到3个库flutter_localizations intl intl_translation123456dependencies:  flutter_localizations:    sdk: flutter  intl: 0.15.7dev_dependencies:  intl_translation: 0.17.4 设置App123456789101112131">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="flutter-本地化l10n（多语言i18n）的支持" class="article article-type-flutter" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/28/本地化l10n（多语言i18n）的支持/" class="article-date">
+  <time datetime="2019-04-28T09:16:09.000Z" itemprop="datePublished">2019-04-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      flutter本地化l10n（多语言i18n）的支持
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="首先说一下要用到的库"><a href="#首先说一下要用到的库" class="headerlink" title="首先说一下要用到的库"></a>首先说一下要用到的库</h2><p>主要用到3个库<code>flutter_localizations</code> <code>intl</code> <code>intl_translation</code><br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dependencies:</span></span><br><span class="line"><span class="attr">  flutter_localizations:</span></span><br><span class="line"><span class="attr">    sdk:</span> <span class="string">flutter</span></span><br><span class="line"><span class="attr">  intl:</span> <span class="number">0.15</span><span class="number">.7</span></span><br><span class="line"><span class="attr">dev_dependencies:</span></span><br><span class="line"><span class="attr">  intl_translation:</span> <span class="number">0.17</span><span class="number">.4</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="设置App"><a href="#设置App" class="headerlink" title="设置App"></a>设置App</h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> MaterialApp(</span><br><span class="line">  onGenerateTitle: (BuildContext context) =&gt;</span><br><span class="line">      AppLocalizations.of(context).title,</span><br><span class="line">  debugShowCheckedModeBanner: <span class="keyword">false</span>,</span><br><span class="line">  theme: ThemeData(</span><br><span class="line">    primarySwatch: Colors.blue,</span><br><span class="line">  ),</span><br><span class="line">  home: routes.buildPage(<span class="string">'login'</span>, <span class="keyword">null</span>),</span><br><span class="line">  localizationsDelegates: [</span><br><span class="line">    <span class="comment">// ... app-specific localization delegate[s] her</span></span><br><span class="line">    AppLocalizationsDelegate(),</span><br><span class="line">    GlobalMaterialLocalizations.delegate,</span><br><span class="line">    GlobalWidgetsLocalizations.delegate,</span><br><span class="line">  ],</span><br><span class="line">  supportedLocales: [</span><br><span class="line">    <span class="comment">// 支持语言设置</span></span><br><span class="line">    <span class="keyword">const</span> Locale(<span class="string">'en'</span>, <span class="string">'US'</span>), <span class="comment">// English</span></span><br><span class="line">    <span class="keyword">const</span> Locale(<span class="string">'zh'</span>, <span class="string">'CH'</span>), <span class="comment">// Chinese</span></span><br><span class="line">    <span class="comment">// ... other locales the app supports</span></span><br><span class="line">  ],</span><br><span class="line">  onGenerateRoute: (RouteSettings settings) &#123;</span><br><span class="line">    <span class="keyword">return</span> MaterialPageRoute&lt;<span class="built_in">Object</span>&gt;(builder: (BuildContext context) &#123;</span><br><span class="line">      <span class="keyword">return</span> routes.buildPage(settings.name, settings.arguments);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="编写本地化类"><a href="#编写本地化类" class="headerlink" title="编写本地化类"></a>编写本地化类</h2><p><code>Lib/localizations.dart</code><br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;</span><br><span class="line"><span class="comment">// import 'package:flutter_localizations/flutter_localizations.dart';</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:intl/intl.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'l10n/messages_all.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppLocalizations</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> Future&lt;AppLocalizations&gt; load(Locale locale) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">String</span> name =</span><br><span class="line">        locale.countryCode.isEmpty ? locale.languageCode : locale.toString();</span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">String</span> localeName = Intl.canonicalizedLocale(name);</span><br><span class="line">    <span class="keyword">return</span> initializeMessages(localeName).then((_) &#123;</span><br><span class="line">      Intl.defaultLocale = localeName;</span><br><span class="line">      <span class="built_in">print</span>(</span><br><span class="line">          <span class="string">'the local code of <span class="subst">$localeName</span> <span class="subst">$&#123;locale.countryCode.isEmpty&#125;</span> <span class="subst">$&#123;locale&#125;</span>'</span>);</span><br><span class="line">      <span class="keyword">return</span> AppLocalizations();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> AppLocalizations of(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Localizations.of&lt;AppLocalizations&gt;(context, AppLocalizations);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">String</span> <span class="keyword">get</span> title &#123;</span><br><span class="line">    <span class="keyword">return</span> Intl.message(</span><br><span class="line">      <span class="string">'Hello World'</span>,</span><br><span class="line">      name: <span class="string">'title'</span>,</span><br><span class="line">      desc: <span class="string">'Title for the Demo application'</span>,</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppLocalizationsDelegate</span> <span class="keyword">extends</span> <span class="title">LocalizationsDelegate</span>&lt;<span class="title">AppLocalizations</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> AppLocalizationsDelegate();</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">bool</span> isSupported(Locale locale) =&gt; [<span class="string">'en'</span>, <span class="string">'zh'</span>].contains(locale.languageCode);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Future&lt;AppLocalizations&gt; load(Locale locale) =&gt; AppLocalizations.load(locale);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">bool</span> shouldReload(AppLocalizationsDelegate old) =&gt; <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="导出intl-messages-arb"><a href="#导出intl-messages-arb" class="headerlink" title="导出intl_messages.arb"></a>导出intl_messages.arb</h2><p>导出命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter pub pub run intl_translation:extract_to_arb --output-dir=lib/l10n lib/localizations.dart</span><br></pre></td></tr></table></figure></p>
+<p>导出的文件 l10n/intl_messages.arb</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"@@last_modified"</span>: <span class="string">"2019-04-28T15:58:14.536252"</span>,</span><br><span class="line">  <span class="attr">"title"</span>: <span class="string">"Hello World"</span>,</span><br><span class="line">  <span class="attr">"@title"</span>: &#123;</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"Title for the Demo application"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">    <span class="attr">"placeholders"</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="编写对应的-l10n-intl-locale-arb"><a href="#编写对应的-l10n-intl-locale-arb" class="headerlink" title="编写对应的 l10n/intl_[locale].arb"></a>编写对应的 l10n/intl_[locale].arb</h2><p>l10n/intl_en.arb<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"@@last_modified"</span>: <span class="string">"2019-04-28T15:58:14.536252"</span>,</span><br><span class="line">  <span class="attr">"title"</span>: <span class="string">"Hello World"</span>,</span><br><span class="line">  <span class="attr">"@title"</span>: &#123;</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"Title for the application"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">    <span class="attr">"placeholders"</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>l10n/intl_zh.arb<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"@@last_modified"</span>: <span class="string">"2019-04-28T15:58:14.536252"</span>,</span><br><span class="line">  <span class="attr">"title"</span>: <span class="string">"你好世界"</span>,</span><br><span class="line">  <span class="attr">"@title"</span>: &#123;</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"Title for the application"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">    <span class="attr">"placeholders"</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="arb-导出-dart-类"><a href="#arb-导出-dart-类" class="headerlink" title="arb 导出 dart 类"></a>arb 导出 dart 类</h2><p>命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flutter pub pub run intl_translation:generate_from_arb --output-dir=lib/l10n \</span><br><span class="line">   --no-use-deferred-loading lib/localizations.dart lib/l10n/intl_*.arb</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'localizations.dart'</span>;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">AppLocalizations.of(context).title</span><br></pre></td></tr></table></figure>
+<h2 id="更新-iOS-app-bundle"><a href="#更新-iOS-app-bundle" class="headerlink" title="更新 iOS app bundle"></a>更新 iOS app bundle</h2><p>打开<code>ios/Runner.xcworkspace</code>找到Runner的<code>Info.plist</code></p>
+<p>添加一个key为<code>Localizations</code>value为你支持的语言</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>good luck</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/28/本地化l10n（多语言i18n）的支持/" data-id="cjv0qa3vi00018ma9fieuh1wb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flutter/">flutter</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/04/28/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/flutter/">flutter</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/flutter/" style="font-size: 10px;">flutter</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/28/本地化l10n（多语言i18n）的支持/">flutter本地化l10n（多语言i18n）的支持</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
